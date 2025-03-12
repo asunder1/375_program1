@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <set>
 #include <chrono>
+#include <vector>
 
 using namespace std;
 
@@ -13,7 +14,7 @@ unordered_map<string,int> sell_prices, buy_prices;
 vector<string> current_problem_items;
 
 struct result {
-    set<string> set;
+    set<string> final_set;
     int profit;
 };
 
@@ -74,9 +75,9 @@ int main() {
         std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> time_elapsed = end - start;
 
-        cout << "Possible Items: " << num_items << ". Profit: " << res.profit << ". Items purchased: " << res.set.size() 
-            << ". Time: " << time_elapsed.count() << " seconds." << endl;
-        for (string item : res.set) {
+        cout << "Possible Items: " << num_items << ". Profit: " << res.profit << ". Items purchased: "
+	     << res.final_set.size() << ". Time: " << time_elapsed.count() << " seconds." << endl;
+        for (string item : res.final_set) {
             cout << item << endl;
         }
         cout << endl;
@@ -92,7 +93,7 @@ result compute_max_profit(set<string>& i, int w) {
 
     // case where you can just buy every item
     if (compute_cost(i) < w) {
-        res.set = i;
+        res.final_set = i;
         res.profit = compute_profit(i);
         return res;
     }
@@ -108,25 +109,25 @@ result compute_max_profit(set<string>& i, int w) {
         }
         current_set = generate_next_subset(current_set);
     }
-    res.set = best_set;
+    res.final_set = best_set;
     res.profit = max_profit;
     return res;
 }
 
-int compute_cost(set<string>& set) {
+int compute_cost(set<string>& current_set) {
     int total = 0;
-    for (string item : set) {
+    for (string item : current_set) {
         total += buy_prices.at(item);
     }
     return total;
 }
 
-int compute_profit(set<string>& set, int cost) {
+int compute_profit(set<string>& current_set, int cost) {
     if (cost == -1) {
-        cost = compute_cost(set);
+        cost = compute_cost(current_set);
     }
     int profit = cost * -1;
-    for (string item : set) {
+    for (string item : current_set) {
         profit += sell_prices.at(item);
     }
     return profit;
@@ -134,7 +135,7 @@ int compute_profit(set<string>& set, int cost) {
 
 set<string> generate_next_subset(set<string>& subset) {
     int num_items = current_problem_items.size();
-    vector<short> has_items;
+    vector<int> has_items;
     int i, j;
     set<string> next_subset;
 
