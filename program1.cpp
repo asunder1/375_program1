@@ -39,21 +39,19 @@ int main() {
     while (getline(market_file, current_line)) {
         istringstream iss(current_line);
         iss >> name >> price;
-        cout << "Name: " << name << " Price: " << price << endl;
         sell_prices[name] = price;
     }
     market_file.close();
 
-    cout << "Done with market prices" << endl;
-
     // solve problems in price_list
     ifstream cost_file("price_list.txt");
+
+    cout << endl;
 
     // runs once for each problem in price_list.txt
     while (getline(cost_file, current_line)) {
         istringstream iss(current_line);
         iss >> num_items >> budget;
-        cout << "num_items: " << num_items << " budget: " << budget << endl;
         buy_prices.clear();
         initial_set.clear();
         current_problem_items.clear();
@@ -62,7 +60,6 @@ int main() {
             getline(cost_file, current_line);
             istringstream iss(current_line);
             iss >> name >> price;
-            cout << "Name: " << name << " Price: " << price << endl;
             if (sell_prices.find(name) == sell_prices.end()) {
                 cout << "Error: item in price_list.txt has no market price in market_price.txt" << endl;
             }
