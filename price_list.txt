@@ -1,0 +1,14 @@
+2 50000
+AndromedaGemstoneX 15000
+OmegaRelicA1 25000
+3 75000
+XenonCrystalZ12 60000
+NebulaPearlY7 20000
+AndromedaGemstoneX 10000
+6 50000
+AndromedaGemstoneX 15000
+OmegaRelicA1 25000
+a 8000
+b 15000
+c 35000
+d 45000
